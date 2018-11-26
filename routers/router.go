@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"github.com/eaglexpf/GoAdminInit/pkg/install"
 	"github.com/eaglexpf/GoAdminInit/pkg/setting"
 	"github.com/gin-gonic/gin"
 )
@@ -18,6 +19,8 @@ func InitRouter() *gin.Engine {
 			"msg":  "success",
 		})
 	})
+	r.GET("/install", install.Install)
+	r.GET("/add", install.AddUser)
 
 	return r
 }
