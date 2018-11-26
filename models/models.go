@@ -9,11 +9,12 @@ import (
 )
 
 var DB *gorm.DB
+var TablePrefix string
 
 func init() {
 	var (
-		err                                                     error
-		dbType, dbName, user, password, host, port, tablePrefix string
+		err                                        error
+		dbType, dbName, user, password, host, port string
 	)
 	sec, err := setting.Cfg.GetSection("database")
 	if err != nil {
@@ -26,7 +27,7 @@ func init() {
 	password = sec.Key("PASSWORD").String()
 	host = sec.Key("HOST").String()
 	port = sec.Key("PORT").String()
-	tablePrefix = sec.Key("TABLE_PREFIX").String()
+	TablePrefix = sec.Key("TABLE_PREFIX").String()
 
 	DB, err = gorm.Open(dbType, fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		user,
@@ -40,7 +41,7 @@ func init() {
 	}
 
 	gorm.DefaultTableNameHandler = func(DB *gorm.DB, defaultTableName string) string {
-		return tablePrefix + defaultTableName
+		return TablePrefix + defaultTableName
 	}
 
 	DB.SingularTable(true)
