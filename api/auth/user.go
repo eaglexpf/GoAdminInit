@@ -1,19 +1,28 @@
 package auth
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/eaglexpf/GoAdminInit/pkg/e"
 
 	"github.com/astaxie/beego/validation"
 	"github.com/eaglexpf/GoAdminInit/models/auth"
+	"github.com/eaglexpf/GoAdminInit/pkg/util"
 	"github.com/gin-gonic/gin"
 )
 
 func AddUser(c *gin.Context) {
-	username := c.Query("username")
+	username := c.PostForm("username")
+	password := c.PostForm("password")
+	email := c.PostForm("email")
+	fmt.Println(username)
+	fmt.Println(password)
+	fmt.Println(email)
 	valid := validation.Validation{}
 	valid.Required(username, "username").Message("username不能为空")
+	valid.Required(password, "password").Message("password不能为空")
+	valid.Required(email, "email").Message("email不能为空")
 	if valid.HasErrors() {
 		c.JSON(http.StatusOK, gin.H{
 			"code": e.ERROR,
@@ -22,16 +31,78 @@ func AddUser(c *gin.Context) {
 		})
 		return
 	}
-	isUserByUserName := auth.ExitUserByUserName(username)
-	if !isUserByUserName {
+	existUserByUserName := auth.ExistUserByUserName(username)
+	if existUserByUserName {
 		c.JSON(http.StatusOK, gin.H{
 			"code": e.ERROR,
-			"msg":  "没有该账号",
+			"msg":  "该账号已存在",
+		})
+		return
+	}
+	existUserByEmail := auth.ExistUserByEmail(email)
+	if existUserByEmail {
+		c.JSON(http.StatusOK, gin.H{
+			"code": e.ERROR,
+			"msg":  "该邮箱已存在",
+		})
+		return
+	}
+	err := auth.AddUser(username, password, email)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": e.ERROR,
+			"msg":  e.GetMsg(e.ERROR),
+			"data": err,
 		})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"code": e.SUCCESS,
 		"msg":  e.GetMsg(e.SUCCESS),
+	})
+}
+
+func Login(c *gin.Context) {
+	username := c.PostForm("username")
+	password := c.PostForm("password")
+	valid := validation.Validation{}
+	valid.Required(username, "username").Message("username不能为空")
+	valid.Required(password, "password").Message("password不能为空")
+	if valid.HasErrors() {
+		c.JSON(http.StatusOK, gin.H{
+			"code": e.ERROR,
+			"msg":  e.GetMsg(e.ERROR),
+			"data": valid.Errors,
+		})
+		return
+	}
+	user, err := auth.GetUserByUserName(username)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": e.ERROR,
+			"msg":  "用户名不存在",
+		})
+		return
+	}
+	if !auth.CheckUserPassword(user, password) {
+		c.JSON(http.StatusOK, gin.H{
+			"code": e.ERROR,
+			"msg":  "密码错误",
+		})
+		return
+	}
+
+	token, err := util.GenerateToken(user.UserName, user.Email)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": e.ERROR,
+			"msg":  "token生成失败",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code":  e.SUCCESS,
+		"msg":   e.GetMsg(e.SUCCESS),
+		"token": token,
 	})
 }

@@ -14,6 +14,9 @@ func InitRouter() *gin.Engine {
 
 	gin.SetMode(setting.RunMode)
 
+	r.PUT("/register", auth.AddUser)
+	r.POST("/login", auth.Login)
+
 	r.GET("/index", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"code": 200,
