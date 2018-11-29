@@ -100,6 +100,10 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
+	title := "注册成功"
+	body := "恭喜你注册成功"
+	to := []string{user.Email}
+	util.SendMail(to, title, body)
 	c.JSON(http.StatusOK, gin.H{
 		"code":  e.SUCCESS,
 		"msg":   e.GetMsg(e.SUCCESS),
