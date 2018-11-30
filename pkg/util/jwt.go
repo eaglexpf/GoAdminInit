@@ -5,24 +5,23 @@ import (
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
+	//	"github.com/eaglexpf/GoAdminInit/models/auth"
 	"github.com/eaglexpf/GoAdminInit/pkg/setting"
 )
 
 var jwtSecret = []byte(setting.JwtSecret)
 
 type Claims struct {
-	UserName string `json:"username"`
-	Email    string `json:"email"`
+	Data interface{} `json:"data"`
 	jwt.StandardClaims
 }
 
-func GenerateToken(username, email string) (string, error) {
+func GenerateToken(data interface{}) (string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(3 * time.Hour)
 
 	claims := Claims{
-		username,
-		email,
+		data,
 		jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
 			Issuer:    "goAdmin",

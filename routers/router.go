@@ -16,6 +16,8 @@ func InitRouter() *gin.Engine {
 
 	r.PUT("/register", auth.AddUser)
 	r.POST("/login", auth.Login)
+	r.GET("/getAuthItemList", auth.GetAuthItemList)
+	r.PUT("/addAuthItem", auth.AddAuthItem)
 
 	r.GET("/index", func(c *gin.Context) {
 		c.JSON(200, gin.H{

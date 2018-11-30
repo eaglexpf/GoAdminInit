@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"fmt"
+	//	"fmt"
 	"net/http"
 
 	"github.com/eaglexpf/GoAdminInit/pkg/e"
@@ -16,9 +16,6 @@ func AddUser(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 	email := c.PostForm("email")
-	fmt.Println(username)
-	fmt.Println(password)
-	fmt.Println(email)
 	valid := validation.Validation{}
 	valid.Required(username, "username").Message("username不能为空")
 	valid.Required(password, "password").Message("password不能为空")
@@ -56,6 +53,30 @@ func AddUser(c *gin.Context) {
 		})
 		return
 	}
+	user, err := auth.GetUserByUserName(username)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": e.ERROR,
+			"msg":  e.GetMsg(e.ERROR),
+			"data": err,
+		})
+		return
+	}
+	//生成token
+	token, err := util.GenerateToken(user)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": e.ERROR,
+			"msg":  "token生成失败",
+		})
+		return
+	}
+	//发送邮件
+	title := "注册认证"
+	body := "恭喜你注册成功,点击下列链接认证：" + token
+	to := []string{email}
+	util.SendMail(to, title, body)
+
 	c.JSON(http.StatusOK, gin.H{
 		"code": e.SUCCESS,
 		"msg":  e.GetMsg(e.SUCCESS),
@@ -92,7 +113,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := util.GenerateToken(user.UserName, user.Email)
+	token, err := util.GenerateToken(user)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": e.ERROR,
@@ -100,10 +121,7 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	title := "注册成功"
-	body := "恭喜你注册成功"
-	to := []string{user.Email}
-	util.SendMail(to, title, body)
+
 	c.JSON(http.StatusOK, gin.H{
 		"code":  e.SUCCESS,
 		"msg":   e.GetMsg(e.SUCCESS),
