@@ -11,17 +11,27 @@ import (
 
 var jwtSecret = []byte(setting.JwtSecret)
 
+type UserData struct {
+	UserID int         `json:"user_id"`
+	UUID   string      `json:"uuid"`
+	Data   interface{} `json:"data"`
+}
+
 type Claims struct {
-	Data interface{} `json:"data"`
+	UserData
 	jwt.StandardClaims
 }
 
-func GenerateToken(data interface{}) (string, error) {
+func GenerateToken(user_id int, uuid string, data interface{}) (string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(3 * time.Hour)
 
 	claims := Claims{
-		data,
+		UserData{
+			UserID: user_id,
+			UUID:   uuid,
+			Data:   data,
+		},
 		jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
 			Issuer:    "goAdmin",

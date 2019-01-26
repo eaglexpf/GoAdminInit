@@ -13,8 +13,8 @@ var TablePrefix string
 
 func init() {
 	var (
-		err                                        error
-		dbType, dbName, user, password, host, port string
+		err                                  error
+		dbType, dbName, user, password, host string
 	)
 	sec, err := setting.Cfg.GetSection("database")
 	if err != nil {
@@ -26,25 +26,24 @@ func init() {
 	user = sec.Key("USER").String()
 	password = sec.Key("PASSWORD").String()
 	host = sec.Key("HOST").String()
-	port = sec.Key("PORT").String()
 	TablePrefix = sec.Key("TABLE_PREFIX").String()
 
-	DB, err = gorm.Open(dbType, fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
+	DB, err = gorm.Open(dbType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		user,
 		password,
 		host,
-		port,
 		dbName))
 
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	gorm.DefaultTableNameHandler = func(DB *gorm.DB, defaultTableName string) string {
-		return TablePrefix + defaultTableName
-	}
+	//	gorm.DefaultTableNameHandler = func(DB *gorm.DB, defaultTableName string) string {
+	//		return TablePrefix + defaultTableName
+	//	}
 
 	DB.SingularTable(true)
+	DB.LogMode(true)
 	DB.DB().SetMaxIdleConns(10)
 	DB.DB().SetMaxOpenConns(100)
 }
