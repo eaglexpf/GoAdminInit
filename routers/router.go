@@ -20,15 +20,25 @@ func InitRouter() *gin.Engine {
 	r.POST("/login", auth.LoginPwd)
 	r.POST("/login.uuid", auth.LoginUUID)
 
+	r.GET("/auth/model", auth.ModelList)
+	r.GET("/auth/model/:id", auth.ModelInfo)
 	r.POST("/auth/model/add", auth.AddModel)
 	r.POST("/auth/model/edit", auth.EditModel)
 	r.POST("/auth/model/del", auth.DeleteModel)
 
+	r.GET("/auth/action/info/:id", auth.ActionInfo)
+	r.GET("/auth/action/model/:model_id", auth.ActionList)
 	r.POST("/auth/action/add", auth.AddAction)
 	r.POST("/auth/action/edit", auth.EditAction)
 	r.POST("/auth/action/del", auth.DeleteAction)
 
 	r.Static("/apidoc", "./apidoc")
+
+	r.GET("/auth/route", auth.RouteList)
+	r.GET("/auth/route/:id", auth.RouteInfo)
+	r.POST("/auth/route", auth.AddRoute)
+	r.PUT("/auth/route/:id", auth.EditAuth)
+	r.DELETE("/auth/route/:id", auth.DeleteRoute)
 
 	//	r.PUT("/register", auth.AddUser)
 	//	r.POST("/login", auth.Login)

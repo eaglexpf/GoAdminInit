@@ -63,3 +63,15 @@ func ExistActionByID(id int) bool {
 	}
 	return false
 }
+
+func ActionListByModelID(id int)[]AuthActionTable{
+	var table []AuthActionTable
+	models.DB.Find(&table).Where("model_id=?",id)
+	return table
+}
+
+func ActionInfoByID(id int)(AuthActionTable,error){
+	var table AuthActionTable
+	err := models.DB.Where("id=?", id).First(&table).Error
+	return table, err
+}

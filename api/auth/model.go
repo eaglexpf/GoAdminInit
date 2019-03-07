@@ -11,7 +11,67 @@ import (
 )
 
 /**
- * @api {post} /auth/model/add 添加模块
+ * @api {get} /auth/model 模块-1列表
+ * @apiDescription 获取模块列表
+ * @apiVersion 0.1.0
+ * @apiGroup AUTH
+ *
+ *
+ * @apiSuccess {int} code 状态值
+ * @apiSuccess {string} msg 状态描述
+ *
+ **/
+func ModelList(c *gin.Context) {
+	data := auth.GetModelAll()
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"msg":  "success",
+		"data": data,
+	})
+}
+
+/**
+ * @api {get} /auth/model/:id 模块-2详情
+ * @apiDescription 获取模块详情
+ * @apiVersion 0.1.0
+ * @apiGroup AUTH
+ *
+ * @apiParam {int} id 模块id
+ *
+ * @apiSuccess {int} code 状态值
+ * @apiSuccess {string} msg 状态描述
+ *
+ **/
+func ModelInfo(c *gin.Context) {
+	id := com.StrTo(c.Param("id")).MustInt()
+
+	valid := validation.Validation{}
+	valid.Required(id, "id").Message("id不能为空")
+	valid.Min(id, 1, "id").Message("id不能为空")
+
+	if valid.HasErrors() {
+		c.JSON(http.StatusOK, gin.H{
+			"code": 400,
+			"msg":  "id不能为空",
+		})
+		return
+	}
+	data, err := auth.GetModelInfoByID(id)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": 400,
+			"msg":  err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 400,
+		"data": data,
+	})
+}
+
+/**
+ * @api {post} /auth/model/add 模块-3添加
  * @apiDescription 新加权限模块
  * @apiVersion 0.1.0
  * @apiGroup AUTH
@@ -62,7 +122,7 @@ func AddModel(c *gin.Context) {
 }
 
 /**
- * @api {post} /auth/model/edit 修改模块
+ * @api {post} /auth/model/edit 模块-4修改
  * @apiDescription 修改权限模块
  * @apiVersion 0.1.0
  * @apiGroup AUTH
@@ -127,7 +187,7 @@ func EditModel(c *gin.Context) {
 }
 
 /**
- * @api {post} /auth/model/del 删除模块
+ * @api {post} /auth/model/del 模块-5删除
  * @apiDescription 删除权限模块
  * @apiVersion 0.1.0
  * @apiGroup AUTH

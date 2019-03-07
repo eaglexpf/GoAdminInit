@@ -1,14 +1,352 @@
 [
   {
+    "type": "delete",
+    "url": "/auth/route/:id",
+    "title": "路由-5、删除",
+    "description": "<p>删除路由</p>",
+    "group": "AUTH",
+    "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "id",
+            "description": "<p>路由id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "int",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态值</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "string",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>状态描述</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "array",
+            "optional": false,
+            "field": "data",
+            "description": "<p>返回数据</p>"
+          }
+        ]
+      }
+    },
+    "filename": "api/auth/route.go",
+    "groupTitle": "权限相关接口",
+    "name": "DeleteAuthRouteId",
+    "sampleRequest": [
+      {
+        "url": "http://127.0.0.1:8000/auth/route/:id"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/auth/action/info/:id",
+    "title": "模块方法-2.详情",
+    "description": "<p>根据方法id获取方法详情</p>",
+    "version": "0.1.0",
+    "group": "AUTH",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "id",
+            "description": "<p>方法id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "int",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态值</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "string",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>状态描述</p>"
+          }
+        ]
+      }
+    },
+    "filename": "api/auth/action.go",
+    "groupTitle": "权限相关接口",
+    "name": "GetAuthActionInfoId",
+    "sampleRequest": [
+      {
+        "url": "http://127.0.0.1:8000/auth/action/info/:id"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/auth/action/model/:model_id",
+    "title": "模块方法-1.列表",
+    "description": "<p>根据模块id获取该模块下的所有方法列表</p>",
+    "version": "0.1.0",
+    "group": "AUTH",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "model_id",
+            "description": "<p>模块id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "int",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态值</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "string",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>状态描述</p>"
+          }
+        ]
+      }
+    },
+    "filename": "api/auth/action.go",
+    "groupTitle": "权限相关接口",
+    "name": "GetAuthActionModelModel_id",
+    "sampleRequest": [
+      {
+        "url": "http://127.0.0.1:8000/auth/action/model/:model_id"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/auth/model",
+    "title": "模块-1列表",
+    "description": "<p>获取模块列表</p>",
+    "version": "0.1.0",
+    "group": "AUTH",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "int",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态值</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "string",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>状态描述</p>"
+          }
+        ]
+      }
+    },
+    "filename": "api/auth/model.go",
+    "groupTitle": "权限相关接口",
+    "name": "GetAuthModel",
+    "sampleRequest": [
+      {
+        "url": "http://127.0.0.1:8000/auth/model"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/auth/model/:id",
+    "title": "模块-2详情",
+    "description": "<p>获取模块详情</p>",
+    "version": "0.1.0",
+    "group": "AUTH",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "id",
+            "description": "<p>模块id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "int",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态值</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "string",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>状态描述</p>"
+          }
+        ]
+      }
+    },
+    "filename": "api/auth/model.go",
+    "groupTitle": "权限相关接口",
+    "name": "GetAuthModelId",
+    "sampleRequest": [
+      {
+        "url": "http://127.0.0.1:8000/auth/model/:id"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/auth/route",
+    "title": "路由-1、列表",
+    "description": "<p>获取路由列表</p>",
+    "version": "0.1.0",
+    "group": "AUTH",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "int",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态值</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "string",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>状态描述</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "array",
+            "optional": false,
+            "field": "data",
+            "description": "<p>返回数据</p>"
+          }
+        ]
+      }
+    },
+    "filename": "api/auth/route.go",
+    "groupTitle": "权限相关接口",
+    "name": "GetAuthRoute",
+    "sampleRequest": [
+      {
+        "url": "http://127.0.0.1:8000/auth/route"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/auth/route/:id",
+    "title": "路由-2、详情",
+    "description": "<p>查询路由详情</p>",
+    "group": "AUTH",
+    "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "id",
+            "description": "<p>路由id</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "int",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态值</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "string",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>状态描述</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "array",
+            "optional": false,
+            "field": "data",
+            "description": "<p>返回数据</p>"
+          }
+        ]
+      }
+    },
+    "filename": "api/auth/route.go",
+    "groupTitle": "权限相关接口",
+    "name": "GetAuthRouteId",
+    "sampleRequest": [
+      {
+        "url": "http://127.0.0.1:8000/auth/route/:id"
+      }
+    ]
+  },
+  {
     "type": "post",
     "url": "/auth/action/add",
-    "title": "添加方法",
+    "title": "模块方法-3.添加",
     "description": "<p>添加权限方法</p>",
     "version": "0.1.0",
     "group": "AUTH",
     "parameter": {
       "fields": {
-        "请求参数：": [
+        "Parameter": [
           {
             "group": "Parameter",
             "type": "int",
@@ -72,13 +410,13 @@
   {
     "type": "post",
     "url": "/auth/action/del",
-    "title": "删除方法",
+    "title": "模块方法-5.删除",
     "description": "<p>删除权限方法</p>",
     "version": "0.1.0",
     "group": "AUTH",
     "parameter": {
       "fields": {
-        "请求参数：": [
+        "Parameter": [
           {
             "group": "Parameter",
             "type": "int",
@@ -121,13 +459,13 @@
   {
     "type": "post",
     "url": "/auth/action/edit",
-    "title": "修改方法",
+    "title": "模块方法-4.修改",
     "description": "<p>修改权限方法</p>",
     "version": "0.1.0",
     "group": "AUTH",
     "parameter": {
       "fields": {
-        "请求参数：": [
+        "Parameter": [
           {
             "group": "Parameter",
             "type": "int",
@@ -198,13 +536,13 @@
   {
     "type": "post",
     "url": "/auth/model/add",
-    "title": "添加模块",
+    "title": "模块-3添加",
     "description": "<p>新加权限模块</p>",
     "version": "0.1.0",
     "group": "AUTH",
     "parameter": {
       "fields": {
-        "请求参数：": [
+        "Parameter": [
           {
             "group": "Parameter",
             "type": "string",
@@ -268,13 +606,13 @@
   {
     "type": "post",
     "url": "/auth/model/del",
-    "title": "删除模块",
+    "title": "模块-5删除",
     "description": "<p>删除权限模块</p>",
     "version": "0.1.0",
     "group": "AUTH",
     "parameter": {
       "fields": {
-        "请求参数：": [
+        "Parameter": [
           {
             "group": "Parameter",
             "type": "int",
@@ -317,13 +655,13 @@
   {
     "type": "post",
     "url": "/auth/model/edit",
-    "title": "修改模块",
+    "title": "模块-4修改",
     "description": "<p>修改权限模块</p>",
     "version": "0.1.0",
     "group": "AUTH",
     "parameter": {
       "fields": {
-        "请求参数：": [
+        "Parameter": [
           {
             "group": "Parameter",
             "type": "int",
@@ -393,6 +731,90 @@
   },
   {
     "type": "post",
+    "url": "/auth/route",
+    "title": "路由-3、新建",
+    "description": "<p>新建路由</p>",
+    "version": "0.1.0",
+    "group": "AUTH",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "name",
+            "description": "<p>路由名称</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": true,
+            "field": "desc",
+            "description": "<p>路由描述</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": true,
+            "field": "route",
+            "description": "<p>路由地址</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": true,
+            "field": "parent_id",
+            "description": "<p>父节点id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": true,
+            "field": "status",
+            "description": "<p>路由状态</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "int",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态值</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "string",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>状态描述</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "array",
+            "optional": false,
+            "field": "data",
+            "description": "<p>返回数据</p>"
+          }
+        ]
+      }
+    },
+    "filename": "api/auth/route.go",
+    "groupTitle": "权限相关接口",
+    "name": "PostAuthRoute",
+    "sampleRequest": [
+      {
+        "url": "http://127.0.0.1:8000/auth/route"
+      }
+    ]
+  },
+  {
+    "type": "post",
     "url": "/login",
     "title": "登录",
     "description": "<p>登录接口</p>",
@@ -400,7 +822,7 @@
     "group": "AUTH",
     "parameter": {
       "fields": {
-        "请求参数：": [
+        "Parameter": [
           {
             "group": "Parameter",
             "type": "string",
@@ -463,7 +885,7 @@
     "group": "AUTH",
     "parameter": {
       "fields": {
-        "请求参数：": [
+        "Parameter": [
           {
             "group": "Parameter",
             "type": "string",
@@ -512,7 +934,7 @@
     "group": "AUTH",
     "parameter": {
       "fields": {
-        "请求参数：": [
+        "Parameter": [
           {
             "group": "Parameter",
             "type": "string",
@@ -570,6 +992,97 @@
     "sampleRequest": [
       {
         "url": "http://127.0.0.1:8000/register"
+      }
+    ]
+  },
+  {
+    "type": "put",
+    "url": "/auth/route/:id",
+    "title": "路由-4、修改",
+    "description": "<p>修改路由信息</p>",
+    "version": "0.1.0",
+    "group": "AUTH",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "id",
+            "description": "<p>路由id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "name",
+            "description": "<p>路由名称</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": true,
+            "field": "desc",
+            "description": "<p>路由描述</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": true,
+            "field": "route",
+            "description": "<p>路由地址</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": true,
+            "field": "parent_id",
+            "description": "<p>父节点id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": true,
+            "field": "status",
+            "description": "<p>路由状态</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "int",
+            "optional": false,
+            "field": "code",
+            "description": "<p>状态值</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "string",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>状态描述</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "array",
+            "optional": false,
+            "field": "data",
+            "description": "<p>返回数据</p>"
+          }
+        ]
+      }
+    },
+    "filename": "api/auth/route.go",
+    "groupTitle": "权限相关接口",
+    "name": "PutAuthRouteId",
+    "sampleRequest": [
+      {
+        "url": "http://127.0.0.1:8000/auth/route/:id"
       }
     ]
   }

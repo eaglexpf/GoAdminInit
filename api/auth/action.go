@@ -10,7 +10,78 @@ import (
 )
 
 /**
- * @api {post} /auth/action/add 添加方法
+ * @api {get} /auth/action/model/:model_id 模块方法-1.列表
+ * @apiDescription 根据模块id获取该模块下的所有方法列表
+ * @apiVersion 0.1.0
+ * @apiGroup AUTH
+ *
+ * @apiParam {int} model_id 模块id
+ *
+ * @apiSuccess {int} code 状态值
+ * @apiSuccess {string} msg 状态描述
+ *
+ */
+func ActionList(c *gin.Context) {
+	model_id := com.StrTo(c.Param("model_id")).MustInt()
+
+	valid := validation.Validation{}
+	valid.Min(model_id, 1, "model_id").Message("model_id不能为空")
+
+	if valid.HasErrors() {
+		c.JSON(http.StatusOK, gin.H{
+			"code": 400,
+			"msg":  "model_id不能为空",
+		})
+		return
+	}
+	data := auth.ActionListByModelID(model_id)
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"data": data,
+	})
+}
+
+/**
+ * @api {get} /auth/action/info/:id 模块方法-2.详情
+ * @apiDescription 根据方法id获取方法详情
+ * @apiVersion 0.1.0
+ * @apiGroup AUTH
+ *
+ * @apiParam {int} id 方法id
+ *
+ * @apiSuccess {int} code 状态值
+ * @apiSuccess {string} msg 状态描述
+ *
+ */
+func ActionInfo(c *gin.Context) {
+	id := com.StrTo(c.Param("id")).MustInt()
+
+	valid := validation.Validation{}
+	valid.Min(id, 1, "id").Message("id不能为空")
+
+	if valid.HasErrors() {
+		c.JSON(http.StatusOK, gin.H{
+			"code": 400,
+			"msg":  "id不能为空",
+		})
+		return
+	}
+	data, err := auth.ActionInfoByID(id)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": 500,
+			"msg":  err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"data": data,
+	})
+}
+
+/**
+ * @api {post} /auth/action/add 模块方法-3.添加
  * @apiDescription 添加权限方法
  * @apiVersion 0.1.0
  * @apiGroup AUTH
@@ -68,7 +139,7 @@ func AddAction(c *gin.Context) {
 }
 
 /**
- * @api {post} /auth/action/edit 修改方法
+ * @api {post} /auth/action/edit 模块方法-4.修改
  * @apiDescription 修改权限方法
  * @apiVersion 0.1.0
  * @apiGroup AUTH
@@ -144,7 +215,7 @@ func EditAction(c *gin.Context) {
 }
 
 /**
- * @api {post} /auth/action/del 删除方法
+ * @api {post} /auth/action/del 模块方法-5.删除
  * @apiDescription 删除权限方法
  * @apiVersion 0.1.0
  * @apiGroup AUTH
