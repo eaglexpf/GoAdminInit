@@ -21,7 +21,7 @@ type AuthRouteTable struct {
 
 type AuthRouteList struct {
 	AuthRouteTable
-	Children []AuthRouteTable
+	Children []AuthRouteList
 }
 
 func (AuthRouteTable) TableName() string {
@@ -43,7 +43,6 @@ func init() {
 	if !models.DB.HasTable(table.TableName()) {
 		models.DB.CreateTable(table)
 	}
-	GetRouteAll()
 }
 
 func CreateRoute(name, description, route string, parent_id, status int) error {
@@ -101,18 +100,29 @@ func GetRouteInfoListByID(id int) []AuthRouteTable {
 	return table
 }
 
-func GetRouteAll() []AuthRouteTable {
-	var table []AuthRouteTable
+func tree(data []AuthRouteList, list map[int][]AuthRouteList) []AuthRouteList {
+	//	fmt.Println("aaa")
+	for key, item := range data {
+		data[key].Children = tree(list[item.ID], list)
+	}
+	return data
+}
+func GetRouteAll() []AuthRouteList {
+	var table []AuthRouteList
 	var data []AuthRouteList
+	parentList := make(map[int][]AuthRouteList)
 	models.DB.Order("parent_id asc").Find(&table)
-	//	fmt.Println(table)
 	for _, route := range table {
-		//		fmt.Println(route)
+		parentList[route.ParentID] = append(parentList[route.ParentID], route)
 		if route.ParentID == 0 {
-			var item = AuthRouteList{route}
-			append(data, route)
+			data = append(data, route)
 		}
 	}
+	data = tree(data, parentList)
+	return data
+}
+func GetRouteList() {
+	var data []AuthRouteList
+	data = GetRouteAll()
 	fmt.Println(data)
-	return table
 }
