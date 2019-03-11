@@ -535,6 +535,42 @@
   },
   {
     "type": "post",
+    "url": "/auth/assignment",
+    "title": "路由分配",
+    "description": "<p>分配权限</p>",
+    "version": "0.0.1",
+    "group": "AUTH",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "user_id",
+            "description": "<p>用户id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Array",
+            "optional": false,
+            "field": "route_ids",
+            "description": "<p>路由id集合</p>"
+          }
+        ]
+      }
+    },
+    "filename": "api/auth/assignment.go",
+    "groupTitle": "权限相关接口",
+    "name": "PostAuthAssignment",
+    "sampleRequest": [
+      {
+        "url": "http://127.0.0.1:8000/auth/assignment"
+      }
+    ]
+  },
+  {
+    "type": "post",
     "url": "/auth/model/add",
     "title": "模块-3添加",
     "description": "<p>新加权限模块</p>",

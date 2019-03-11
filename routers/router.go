@@ -40,6 +40,8 @@ func InitRouter() *gin.Engine {
 	r.PUT("/auth/route/:id", auth.EditAuth)
 	r.DELETE("/auth/route/:id", auth.DeleteRoute)
 
+	r.POST("/auth/assignment", auth.Assignment)
+
 	//	r.PUT("/register", auth.AddUser)
 	//	r.POST("/login", auth.Login)
 	//	r.GET("/getAuthItemList", auth.GetAuthItemList)

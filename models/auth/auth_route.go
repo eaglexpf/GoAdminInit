@@ -45,6 +45,7 @@ func init() {
 	}
 }
 
+//添加路由
 func CreateRoute(name, description, route string, parent_id, status int) error {
 	return models.DB.Create(&AuthRouteTable{
 		Name:        name,
@@ -55,10 +56,12 @@ func CreateRoute(name, description, route string, parent_id, status int) error {
 	}).Error
 }
 
+//修改路由
 func EditRoute(id int, data interface{}) error {
 	return models.DB.Model(&AuthRouteTable{}).Where("id=?", id).Updates(data).Error
 }
 
+//删除路由
 func DeleteRoute(id int) error {
 	route, err := GetRouteInfoByID(id)
 	if err != nil {
@@ -79,6 +82,7 @@ func DeleteRoute(id int) error {
 	return nil
 }
 
+//根据路由id判断路由是否存在
 func ExistRouteByID(id int) bool {
 	var table AuthRouteTable
 	models.DB.Where("id=?", id).First(&table)
@@ -88,25 +92,28 @@ func ExistRouteByID(id int) bool {
 	return false
 }
 
+//根据路由id获取路由详情
 func GetRouteInfoByID(id int) (AuthRouteTable, error) {
 	var table AuthRouteTable
 	err := models.DB.Where("id=?", id).First(&table).Error
 	return table, err
 }
 
+//根据路由id获取子节点列表
 func GetRouteInfoListByID(id int) []AuthRouteTable {
 	var table []AuthRouteTable
 	models.DB.Where("parent_id=?", id).Find(&table)
 	return table
 }
 
-func tree(data []AuthRouteList, list map[int][]AuthRouteList) []AuthRouteList {
-	//	fmt.Println("aaa")
+func tree(data []AuthRouteList, list *map[int][]AuthRouteList) []AuthRouteList {
 	for key, item := range data {
-		data[key].Children = tree(list[item.ID], list)
+		data[key].Children = tree((*list)[item.ID], list)
 	}
 	return data
 }
+
+//获取路由树节点列表
 func GetRouteAll() []AuthRouteList {
 	var table []AuthRouteList
 	var data []AuthRouteList
@@ -118,11 +125,13 @@ func GetRouteAll() []AuthRouteList {
 			data = append(data, route)
 		}
 	}
-	data = tree(data, parentList)
+	data = tree(data, &parentList)
 	return data
 }
+
+//获取路由有效节点列表
 func GetRouteList() {
-	var data []AuthRouteList
-	data = GetRouteAll()
+	var data []AuthRouteTable
+	models.DB.Where("route!=?", "").Find(&data)
 	fmt.Println(data)
 }

@@ -3,8 +3,12 @@ package auth
 import (
 	"fmt"
 
+	"bytes"
+
+	"strconv"
+
 	"github.com/eaglexpf/GoAdminInit/models"
-	"github.com/jinzhu/gorm"
+	//	"github.com/jinzhu/gorm"
 )
 
 type AuthAssignmentType struct {
@@ -21,8 +25,6 @@ func init() {
 	if !models.DB.HasTable(table.TableName()) {
 		models.DB.CreateTable(table)
 	}
-	var user_id int
-	var routeData = []int{1, 2, 3, 4, 5, 6, 7}
 }
 
 func ExistAssignment(user_id, route_id int) bool {
@@ -35,19 +37,32 @@ func ExistAssignment(user_id, route_id int) bool {
 }
 
 func UserRouteAssignment(user_id int, routeData []int) error {
-	err := models.DB.Delete("user_id=?", user_id).Error
+	var table = AuthAssignmentType{}
+	err := models.DB.Delete(table, "user_id=?", user_id).Error
 	if err != nil {
 		return err
 	}
-	sql := ""
+	if len(routeData) == 0 {
+		return nil
+	}
+	fmt.Println(user_id, routeData)
+	var buffer bytes.Buffer
+	buffer.WriteString("insert into ")
+	buffer.WriteString(table.TableName())
+	buffer.WriteString(" values ")
 	for key, item := range routeData {
-		sql += "(" + user_id + "," + item + ")"
-		if key != len(routeData) {
-			sql += ","
+		buffer.WriteString("(")
+		buffer.WriteString(strconv.Itoa(user_id))
+		buffer.WriteString(",")
+		buffer.WriteString(strconv.Itoa(item))
+		buffer.WriteString(")")
+		if key != len(routeData)-1 {
+			buffer.WriteString(",")
 		}
 	}
-	fmt.Println(sql)
-	return nil
+	fmt.Println(buffer.String())
+	err = models.DB.Exec(buffer.String()).Error
+	return err
 }
 
 func GetUserRoute(user_id int) {
