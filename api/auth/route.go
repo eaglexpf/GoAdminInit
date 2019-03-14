@@ -3,6 +3,8 @@ package auth
 import (
 	"net/http"
 
+	"fmt"
+
 	"github.com/Unknwon/com"
 	"github.com/astaxie/beego/validation"
 	"github.com/eaglexpf/GoAdminInit/models/auth"
@@ -110,7 +112,7 @@ func AddRoute(c *gin.Context) {
 	route := c.PostForm("route")
 	parent_id := com.StrTo(c.PostForm("parent_id")).MustInt()
 	status := com.StrTo(c.PostForm("status")).MustInt()
-
+	fmt.Println(name)
 	valid := validation.Validation{}
 	valid.Required(name, "name").Message("name不能为空")
 

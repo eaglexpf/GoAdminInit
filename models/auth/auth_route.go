@@ -21,7 +21,7 @@ type AuthRouteTable struct {
 
 type AuthRouteList struct {
 	AuthRouteTable
-	Children []AuthRouteList
+	Children []AuthRouteList `json:"children"`
 }
 
 func (AuthRouteTable) TableName() string {
