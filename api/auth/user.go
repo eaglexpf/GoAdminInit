@@ -158,10 +158,12 @@ func LoginPwd(c *gin.Context) {
 		return
 	}
 
+	responseData := make(map[string]string)
+	responseData["token"] = token
 	c.JSON(http.StatusOK, gin.H{
-		"code":  0,
-		"msg":   "success",
-		"token": token,
+		"code": 0,
+		"msg":  "success",
+		"data": responseData,
 	})
 }
 
@@ -219,9 +221,28 @@ func LoginUUID(c *gin.Context) {
 		})
 		return
 	}
+	responseData := make(map[string]string)
+	responseData["token"] = token
 	c.JSON(http.StatusOK, gin.H{
-		"code":  0,
-		"msg":   "success",
-		"token": token,
+		"code": 0,
+		"msg":  "success",
+		"data": responseData,
+	})
+}
+
+func CheckLogin(c *gin.Context) {
+	token := c.PostForm("token")
+	data, err := util.ParseToken(token)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": 400,
+			"msg":  "error",
+			"data": make(map[interface{}]interface{}),
+		})
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"msg":  "success",
+		"data": data,
 	})
 }

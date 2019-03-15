@@ -19,6 +19,7 @@ func InitRouter() *gin.Engine {
 	r.POST("/register", auth.Register)
 	r.POST("/login", auth.LoginPwd)
 	r.POST("/login.uuid", auth.LoginUUID)
+	r.POST("/login.check", auth.CheckLogin)
 
 	r.GET("/auth/model", auth.ModelList)
 	r.GET("/auth/model/:id", auth.ModelInfo)
